@@ -29,7 +29,7 @@ variable "addons" {
 variable "gitops_addons_org" {
   description = "Git repository org/user contains for addons"
   type        = string
-  default     = "https://github.com/lusoal"
+  default     = "https://github.com/ande28em"
 }
 variable "gitops_addons_repo" {
   description = "Git repository contains for addons"
