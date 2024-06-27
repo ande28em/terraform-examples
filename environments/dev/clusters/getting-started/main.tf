@@ -229,7 +229,7 @@ module "eks" {
     }
   }
   tags = merge(local.tags, {
-    "karpenter.sh/discovery" = ex-karpenter
+    "karpenter.sh/discovery" = local.name
   })
 }
 module "ebs_csi_driver_irsa" {
@@ -273,7 +273,7 @@ module "vpc" {
 
   private_subnet_tags = {
     "kubernetes.io/role/internal-elb" = 1
-    "karpenter.sh/discovery"          = ex-karpenter
+    "karpenter.sh/discovery"          = local.name
   }
 
   tags = local.tags
