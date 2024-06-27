@@ -23,6 +23,7 @@ variable "addons" {
     enable_karpenter                    = true
     enable_argo_workflows               = true
     enable_argo_events                  = true
+    enable_argo_rollouts                = true
   }
 }
 # Addons Git

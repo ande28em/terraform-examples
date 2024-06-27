@@ -228,7 +228,9 @@ module "eks" {
       service_account_role_arn = module.ebs_csi_driver_irsa.iam_role_arn
     }
   }
-  tags = local.tags
+  tags = merge(local.tags, {
+    "karpenter.sh/discovery" = ex-karpenter
+  })
 }
 module "ebs_csi_driver_irsa" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
@@ -271,6 +273,7 @@ module "vpc" {
 
   private_subnet_tags = {
     "kubernetes.io/role/internal-elb" = 1
+    "karpenter.sh/discovery"          = ex-karpenter
   }
 
   tags = local.tags
