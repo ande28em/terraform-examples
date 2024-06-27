@@ -122,7 +122,7 @@ locals {
       workload_repo_revision = local.gitops_workload_revision
     },
     {
-      argo_workflows_role_arn = module.argo_workflows_eks_role.iam_role_arn
+      argo_workflows_role_arn     = module.argo_workflows_eks_role.iam_role_arn
       argo_workflows_bucket_state = aws_s3_bucket.bucket.id
     }
   )
@@ -158,6 +158,7 @@ module "eks_blueprints_addons" {
   oidc_provider_arn = module.eks.oidc_provider_arn
 
   # Using GitOps Bridge
+  # Stop Terraform from installing Helm, but give back metadata
   create_kubernetes_resources = false
 
   # EKS Blueprints Addons
