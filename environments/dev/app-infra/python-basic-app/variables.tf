@@ -1,11 +1,11 @@
 variable "application_name" {
-  default = "python-basic-app"
+  default = "anycompany-app"
 }
 
 variable "bucket_name" {
-  default = "python-basic-app-bucket-dhsgds"
+  default = "anycompany-app-bucket"
 }
 
 variable "role_name" {
-  default = "python-basic-app-role"
+  default = "anycompany-app-role"
 }

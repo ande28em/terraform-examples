@@ -31,3 +31,7 @@ output "access_argocd" {
     echo "ArgoCD URL: https://$(kubectl get svc -n argocd argo-cd-argocd-server -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
     EOT
 }
+
+output "karpenter_metadata" {
+  value = module.eks_blueprints_addons.karpenter
+}

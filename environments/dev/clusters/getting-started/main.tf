@@ -150,7 +150,7 @@ module "gitops_bridge_bootstrap" {
 ################################################################################
 module "eks_blueprints_addons" {
   source  = "aws-ia/eks-blueprints-addons/aws"
-  version = "~> 1.0"
+  version = "~> 1.16.3" #1.0 or 1.16.3
 
   cluster_name      = module.eks.cluster_name
   cluster_endpoint  = module.eks.cluster_endpoint
@@ -181,13 +181,20 @@ module "eks_blueprints_addons" {
   tags = local.tags
 }
 
+resource "aws_eks_access_entry" "karpenter_node_access_entry" {
+  cluster_name      = module.eks.cluster_name
+  principal_arn     = module.eks_blueprints_addons.karpenter.node_iam_role_arn
+  kubernetes_groups = []
+  type              = "EC2_LINUX"
+}
+
 ################################################################################
 # EKS Cluster
 ################################################################################
 #tfsec:ignore:aws-eks-enable-control-plane-logging
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 19.13"
+  version = "~> 20.11" #19.13 or 20.11
 
   cluster_name                   = local.name
   cluster_version                = local.cluster_version
@@ -196,6 +203,20 @@ module "eks" {
 
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
+
+  enable_cluster_creator_admin_permissions = true
+
+  # manage_aws_auth_configmap = true
+  # aws_auth_roles = [
+  #   {
+  #     rolearn  = module.eks_blueprints_addons.karpenter.node_iam_role_arn
+  #     username = "system:node:{{EC2PrivateDNSName}}"
+  #     groups = [
+  #       "system:bootstrappers",
+  #       "system:nodes",
+  #     ]
+  #   }
+  # ]
 
   eks_managed_node_groups = {
     initial = {
