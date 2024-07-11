@@ -204,7 +204,7 @@ module "eks" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
-  enable_cluster_creator_admin_permissions = true
+  # enable_cluster_creator_admin_permissions = true
 
   # manage_aws_auth_configmap = true
   # aws_auth_roles = [
@@ -269,6 +269,12 @@ module "ebs_csi_driver_irsa" {
   }
 
   tags = local.tags
+
+  # lifecycle {
+  #   ignore_changes = [
+  #     enable_cluster_creator_admin_permissions
+  #   ]
+  # }
 }
 
 ################################################################################
